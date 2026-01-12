@@ -1,0 +1,64 @@
+name: "Cherry-pick and Create PR"
+description: "Cherry-pick commits to a target branch and create a pull request"
+author: "flxbl-io"
+
+branding:
+  icon: "git-branch"
+  color: "purple"
+
+inputs:
+  commits:
+    description: "Comma-separated list of commit SHAs to cherry-pick"
+    required: true
+  target-branch:
+    description: "Target branch to cherry-pick onto (e.g., release/1.0)"
+    required: true
+  new-branch:
+    description: "Name for the new branch (auto-generated if not provided)"
+    required: false
+    default: ""
+  pr-title:
+    description: "Title for the pull request"
+    required: false
+    default: ""
+  pr-body:
+    description: "Body for the pull request"
+    required: false
+    default: ""
+  gh-token:
+    description: "GitHub token for creating PR"
+    required: true
+  repository:
+    description: "Repository name (format: owner/repo)"
+    required: false
+    default: ${{ github.repository }}
+  author-name:
+    description: "Git author name for cherry-pick commits"
+    required: false
+    default: "github-actions[bot]"
+  author-email:
+    description: "Git author email for cherry-pick commits"
+    required: false
+    default: "github-actions[bot]@users.noreply.github.com"
+  draft:
+    description: "Create PR as draft"
+    required: false
+    default: "false"
+  labels:
+    description: "Comma-separated list of labels to add to PR"
+    required: false
+    default: ""
+
+outputs:
+  pr-url:
+    description: "URL of the created pull request"
+  pr-number:
+    description: "Number of the created pull request"
+  branch-name:
+    description: "Name of the branch that was created"
+  cherry-pick-status:
+    description: "Status of cherry-pick operation (success/conflict/failed)"
+
+runs:
+  using: "node20"
+  main: "dist/index.js"
